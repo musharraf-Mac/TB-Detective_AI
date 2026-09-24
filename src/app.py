@@ -13,7 +13,7 @@ load_dotenv()
 
 # Load environment variables
 # dotenv is now handled by st.secrets in cloud deployment
-w
+
 # --- Configuration ---
 try:
     HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID", "musharraf-mac2/TB_detector_by_MSH_V1"))
