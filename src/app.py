@@ -12,9 +12,9 @@ from huggingface_hub import hf_hub_download
 load_dotenv()
 
 # --- Configuration ---
-HF_REPO_ID = os.getenv("HF_REPO_ID", "musharraf-mac2/TB_detector_by_MSH_V1")
-HF_FILENAME = os.getenv("HF_FILENAME", "baseline_densenet121_shenzhen.pth")
-HF_TOKEN = os.getenv("HF_TOKEN")
+HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID"))
+HF_FILENAME = st.secrets.get("MODEL_V1", os.getenv("MODEL_V1"))
+HF_TOKEN = st.secrets.get("HF_TOKEN", os.getenv("HF_TOKEN"))
 CLASS_NAMES = ["Normal", "TB Positive"]
 
 # --- Model Setup ---
