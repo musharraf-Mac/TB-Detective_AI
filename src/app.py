@@ -8,13 +8,23 @@ import os
 from dotenv import load_dotenv
 from huggingface_hub import hf_hub_download
 
-# Load environment variables
+# Load local .env file if it exists
 load_dotenv()
 
+# Load environment variables
+# dotenv is now handled by st.secrets in cloud deployment
+w
 # --- Configuration ---
-HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID"))
-HF_FILENAME = st.secrets.get("MODEL_V1", os.getenv("MODEL_V1"))
-HF_TOKEN = st.secrets.get("HF_TOKEN", os.getenv("HF_TOKEN"))
+try:
+    HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID", "musharraf-mac2/TB_detector_by_MSH_V1"))
+    HF_FILENAME = st.secrets.get("MODEL_V1", os.getenv("MODEL_V1", "baseline_densenet121_shenzhen.pth"))
+    HF_TOKEN = st.secrets.get("HF_TOKEN", os.getenv("HF_TOKEN"))
+except Exception:
+    # Fallback for local environments where secrets.toml is missing
+    HF_REPO_ID = os.getenv("REPOID", "musharraf-mac2/TB_detector_by_MSH_V1")
+    HF_FILENAME = os.getenv("MODEL_V1", "baseline_densenet121_shenzhen.pth")
+    HF_TOKEN = os.getenv("HF_TOKEN")
+
 CLASS_NAMES = ["Normal", "TB Positive"]
 
 # --- Model Setup ---
