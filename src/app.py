@@ -16,13 +16,13 @@ load_dotenv()
 
 # --- Configuration ---
 try:
-    HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID", "musharraf-mac2/TB_detector_by_MSH_V1"))
-    HF_FILENAME = st.secrets.get("MODEL_V1", os.getenv("MODEL_V1", "baseline_densenet121_shenzhen.pth"))
+    HF_REPO_ID = st.secrets.get("REPOID", os.getenv("REPOID"))
+    HF_FILENAME = st.secrets.get("MODEL_V1", os.getenv("MODEL_V1"))
     HF_TOKEN = st.secrets.get("HF_TOKEN", os.getenv("HF_TOKEN"))
 except Exception:
     # Fallback for local environments where secrets.toml is missing
-    HF_REPO_ID = os.getenv("REPOID", "musharraf-mac2/TB_detector_by_MSH_V1")
-    HF_FILENAME = os.getenv("MODEL_V1", "baseline_densenet121_shenzhen.pth")
+    HF_REPO_ID = os.getenv("REPOID")
+    HF_FILENAME = os.getenv("MODEL_V1")
     HF_TOKEN = os.getenv("HF_TOKEN")
 
 CLASS_NAMES = ["Normal", "TB Positive"]
@@ -41,8 +41,8 @@ def load_model():
     # Download and load the saved weights from HF
     try:
         model_path = hf_hub_download(
-            repo_id=HF_REPO_ID,
-            filename=HF_FILENAME,
+            repo_id=str(HF_REPO_ID),
+            filename=str(HF_FILENAME),
             token=HF_TOKEN
         )
         state_dict = torch.load(model_path, map_location=torch.device('cpu'))
